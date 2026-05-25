@@ -1,0 +1,690 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Local Russian Rock Music Generation API",
+    "description": "Prototype API scaffold with a deterministic mock backend.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/v1/tracks": {
+      "post": {
+        "tags": [
+          "tracks"
+        ],
+        "summary": "Create Track",
+        "operationId": "create_track_v1_tracks_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrackCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackCreateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tracks/{job_id}": {
+      "get": {
+        "tags": [
+          "tracks"
+        ],
+        "summary": "Get Track",
+        "operationId": "get_track_v1_tracks__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tracks/{job_id}/lyrics": {
+      "get": {
+        "tags": [
+          "tracks"
+        ],
+        "summary": "Get Lyrics",
+        "operationId": "get_lyrics_v1_tracks__job_id__lyrics_get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LyricsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tracks/{job_id}/audio": {
+      "get": {
+        "tags": [
+          "tracks"
+        ],
+        "summary": "Get Audio",
+        "operationId": "get_audio_v1_tracks__job_id__audio_get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "tags": [
+          "models"
+        ],
+        "summary": "List Models",
+        "operationId": "list_models_v1_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AudioMode": {
+        "type": "string",
+        "enum": [
+          "instrumental_with_lyrics_file",
+          "lyrics_conditioned",
+          "sung_lyrics_unverified",
+          "sung_lyrics_aligned"
+        ],
+        "title": "AudioMode"
+      },
+      "ErrorPayload": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "recoverable": {
+            "type": "boolean",
+            "title": "Recoverable",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorPayload"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "JobStatus": {
+        "type": "string",
+        "enum": [
+          "queued",
+          "running",
+          "completed",
+          "failed",
+          "cancelled",
+          "expired"
+        ],
+        "title": "JobStatus"
+      },
+      "LyricsMode": {
+        "type": "string",
+        "enum": [
+          "generate",
+          "provided"
+        ],
+        "title": "LyricsMode"
+      },
+      "LyricsResponse": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language"
+          },
+          "structure": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Structure"
+          },
+          "lyrics": {
+            "type": "string",
+            "title": "Lyrics"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "language",
+          "structure",
+          "lyrics"
+        ],
+        "title": "LyricsResponse"
+      },
+      "ModelCapabilities": {
+        "properties": {
+          "text_to_music": {
+            "type": "boolean",
+            "title": "Text To Music"
+          },
+          "lyrics_alignment": {
+            "type": "boolean",
+            "title": "Lyrics Alignment"
+          },
+          "vocals": {
+            "type": "boolean",
+            "title": "Vocals"
+          },
+          "max_duration_sec": {
+            "type": "integer",
+            "title": "Max Duration Sec"
+          },
+          "supported_audio_modes": {
+            "items": {
+              "$ref": "#/components/schemas/AudioMode"
+            },
+            "type": "array",
+            "title": "Supported Audio Modes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text_to_music",
+          "lyrics_alignment",
+          "vocals",
+          "max_duration_sec",
+          "supported_audio_modes"
+        ],
+        "title": "ModelCapabilities"
+      },
+      "ModelInfo": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "title": "Model Id"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/ModelCapabilities"
+          },
+          "license_note": {
+            "type": "string",
+            "title": "License Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "display_name",
+          "capabilities",
+          "license_note"
+        ],
+        "title": "ModelInfo"
+      },
+      "ModelsResponse": {
+        "properties": {
+          "models": {
+            "items": {
+              "$ref": "#/components/schemas/ModelInfo"
+            },
+            "type": "array",
+            "title": "Models"
+          }
+        },
+        "type": "object",
+        "required": [
+          "models"
+        ],
+        "title": "ModelsResponse"
+      },
+      "TrackCreateRequest": {
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Prompt"
+          },
+          "genre": {
+            "type": "string",
+            "title": "Genre",
+            "default": "rock"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "default": "ru"
+          },
+          "lyrics_mode": {
+            "$ref": "#/components/schemas/LyricsMode",
+            "default": "generate"
+          },
+          "lyrics": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lyrics"
+          },
+          "duration_sec": {
+            "type": "integer",
+            "maximum": 600.0,
+            "minimum": 1.0,
+            "title": "Duration Sec",
+            "default": 30
+          },
+          "quality_preset": {
+            "type": "string",
+            "title": "Quality Preset",
+            "default": "balanced"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id",
+            "default": "mock"
+          },
+          "target_audio_mode": {
+            "$ref": "#/components/schemas/AudioMode",
+            "default": "instrumental_with_lyrics_file"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "title": "TrackCreateRequest"
+      },
+      "TrackCreateResponse": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/JobStatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "title": "TrackCreateResponse"
+      },
+      "TrackMetadata": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "runtime": {
+            "type": "string",
+            "title": "Runtime"
+          },
+          "device": {
+            "type": "string",
+            "title": "Device"
+          },
+          "duration_sec_target": {
+            "type": "integer",
+            "title": "Duration Sec Target"
+          },
+          "duration_sec_actual": {
+            "type": "number",
+            "title": "Duration Sec Actual"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language"
+          },
+          "genre": {
+            "type": "string",
+            "title": "Genre"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "generation_time_sec": {
+            "type": "number",
+            "title": "Generation Time Sec"
+          },
+          "target_audio_mode": {
+            "$ref": "#/components/schemas/AudioMode"
+          },
+          "actual_audio_mode": {
+            "$ref": "#/components/schemas/AudioMode"
+          },
+          "lyrics_used_for_conditioning": {
+            "type": "boolean",
+            "title": "Lyrics Used For Conditioning"
+          },
+          "lyrics_aligned_to_vocals": {
+            "type": "boolean",
+            "title": "Lyrics Aligned To Vocals"
+          },
+          "instrumental_only": {
+            "type": "boolean",
+            "title": "Instrumental Only"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "model_id",
+          "model_version",
+          "runtime",
+          "device",
+          "duration_sec_target",
+          "duration_sec_actual",
+          "language",
+          "genre",
+          "seed",
+          "generation_time_sec",
+          "target_audio_mode",
+          "actual_audio_mode",
+          "lyrics_used_for_conditioning",
+          "lyrics_aligned_to_vocals",
+          "instrumental_only"
+        ],
+        "title": "TrackMetadata"
+      },
+      "TrackStatusResponse": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/JobStatus"
+          },
+          "lyrics_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lyrics Url"
+          },
+          "audio_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Url"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TrackMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorPayload"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "title": "TrackStatusResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
