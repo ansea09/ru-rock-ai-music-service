@@ -16,10 +16,11 @@ For implementation work:
 
 1. `task/00_bounded_context.md`
 2. `architecture/04_architecture.md`
-3. `architecture/05_api_contract.md`
-4. `architecture/07_generation_pipeline.md`
-5. `delivery/11_acceptance_criteria.md`
-6. `delivery/14_codex_work_items.md`
+3. `architecture/10_maturity_deployment_and_quality.md`
+4. `architecture/05_api_contract.md`
+5. `architecture/07_generation_pipeline.md`
+6. `delivery/11_acceptance_criteria.md`
+7. `delivery/14_codex_work_items.md`
 
 For model research:
 
@@ -31,8 +32,9 @@ For model research:
 For GPU execution and orchestration:
 
 1. `architecture/09_gpu_farm_integration.md`
-2. `delivery/16_acceptance_profiles.md`
-3. `research/13_risks_and_unknowns.md`
+2. `architecture/10_maturity_deployment_and_quality.md`
+3. `delivery/16_acceptance_profiles.md`
+4. `research/13_risks_and_unknowns.md`
 
 ## Folder Roles
 

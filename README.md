@@ -125,6 +125,8 @@ Key files:
 
 - `AGENTS.md` — instructions for Codex and other coding agents.
 - `docs/delivery/16_acceptance_profiles.md` — selectable acceptance profiles.
+- `docs/architecture/04_architecture.md` — core architecture boundary.
+- `docs/architecture/10_maturity_deployment_and_quality.md` — maturity levels, deployment modes, and quality concerns.
 - `docs/architecture/05_api_contract.md` — REST API contract.
 - `docs/api/openapi.json` — exported OpenAPI schema for machines and diffs.
 - `docs/engineering/naming_conventions.md` — naming convention and semio checks.

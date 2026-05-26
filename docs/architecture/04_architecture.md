@@ -1,5 +1,17 @@
 # 04 — Architecture
 
+## Architecture claim
+
+This project is an asynchronous artifact-generation service. It is not primarily
+a synchronous model-serving endpoint.
+
+The runtime architecture must preserve four boundaries:
+
+- Request handling and long-running generation are separate.
+- Job state and generated artifacts are separate.
+- Generated lyrics and sung lyric alignment are separate.
+- Model-card claims, local run evidence, benchmark evidence, and production claims are separate.
+
 ## Recommended MVP architecture
 
 ```text
@@ -105,6 +117,19 @@ Required artifacts:
 
 The metadata must state the actual output mode. Returning `lyrics.json` and `audio.wav` is not enough to imply that the audio sings those lyrics.
 
+## Quality concerns
+
+Treat these as design concerns, not as automatic production commitments:
+
+- Reproducibility: model id, seed, backend, parameters, runtime, and output mode are recorded.
+- Artifact traceability: request, lyrics, audio, metadata, and benchmark records are linked.
+- Failure visibility: worker errors are represented in job status and metadata.
+- Local/cloud portability: local filesystem and local worker are enough for MVP; object storage and external workers are stronger deployment modes.
+- GPU cost control: cold start, warm pool, model cache, and GPU release policy are explicit when GPU execution is implemented.
+- Benchmark evidence: parity is claimed only inside a fixed benchmark slice.
+
+For the full maturity model and deployment modes, see `10_maturity_deployment_and_quality.md`.
+
 ## Optional GPU execution / GPU farm architecture
 
 ```text
@@ -134,3 +159,10 @@ Artifact Store
 - Acceptance profile: API/mock, real local inference, lyrics/vocal target, benchmark, or GPU execution.
 - Output mode: instrumental with lyrics file, lyrics-conditioned, unverified sung lyrics, or verified aligned sung lyrics.
 - Evidence boundary: model card, local smoke test, benchmark report, and production claim are different artifacts.
+
+## Premature complexity boundary
+
+Do not add Kafka, Cassandra, public DDoS protection, high-availability claims, or
+large-data processing infrastructure to the baseline architecture unless the
+acceptance profile includes concrete traffic, retention, replay, production SLO,
+security, or dataset-processing requirements.
